@@ -6,3 +6,5 @@ v0.1.0.29 commit 7 5/2/15 3:58 PM
 	Added a new icon
 	changed version numbers and app name
 	Added a tile on Windows 8.1
+v0.1.0.30 5/2/15 4:36 PM
+	Added more documentation

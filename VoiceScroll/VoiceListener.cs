@@ -81,6 +81,11 @@ namespace VoiceBrowser
             speechRecogEngine.RecognizeAsync(RecognizeMode.Multiple);
         }
 
+        /// <summary>
+        /// Parse the recognized voice command.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void speechRecogEngine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             string txt = e.Result.Text;
@@ -110,19 +115,19 @@ namespace VoiceBrowser
             {
                 PrevTab();
             }
-            else if (txt.IndexOf(pause) >= 0)
+            else if (txt.IndexOf(pause) >= 0) //switch to the menu grammar set
             {
                 speechRecogEngine.UnloadAllGrammars();
                 speechRecogEngine.LoadGrammarAsync(InitializeMenuGrammar());
             }
-            else if (txt.IndexOf(resume) >= 0)
+            else if (txt.IndexOf(resume) >= 0) //switch to the normal grammar set
             {
                 speechRecogEngine.UnloadAllGrammars();
                 speechRecogEngine.LoadGrammarAsync(InitializeGrammar());
             }
             else if (txt.IndexOf(exit) >= 0)
             {
-                System.Environment.Exit(1);
+                System.Environment.Exit(0); //clean exit the application
             }
         }
 
