@@ -1,2 +1,4 @@
 v0.1.0.25 commit 4 5/2/15 2:27 PM CDT
 	Initial Commit
+v0.1.0.27 commit 6 5/2/15 3:07 PM CDT
+	Application now installs dependencies if they are not currently installed.

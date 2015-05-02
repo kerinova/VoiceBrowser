@@ -17,14 +17,9 @@
  */
 #endregion
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Speech.Recognition;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 namespace VoiceScroll
 {

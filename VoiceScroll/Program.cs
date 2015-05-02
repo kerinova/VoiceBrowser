@@ -17,10 +17,8 @@
  */
 #endregion
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Threading;
 
 namespace VoiceScroll
 {
@@ -32,6 +30,22 @@ namespace VoiceScroll
             Console.WriteLine("Voice Listener [Version 0.0.3.25]");
             Console.WriteLine("Copyright \u00a9 2015-{0} Kerinova Studios. All rights reserved.", DateTime.Now.Year);
             Console.WriteLine("GPL v3 License");
+            try
+            {
+                Recognize();
+            }
+            catch (System.IO.FileNotFoundException e) //if the speech runtime is not installed, install it and restart.
+            {
+                InstallDependencies();
+            }
+        }
+        private static void InstallDependencies()
+        {
+            DependencyInstaller.Install("SpeechPlatformRuntime.msi");
+            DependencyInstaller.Install("MSSpeech_SR_en-US_TELE.msi");
+        }
+        private static void Recognize()
+        {
             VoiceListener voiceListener = new VoiceListener();
             voiceListener.Recognize();
             while (done == false)
