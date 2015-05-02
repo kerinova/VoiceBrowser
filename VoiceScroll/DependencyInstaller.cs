@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace VoiceScroll
+namespace VoiceBrowser
 {
     class DependencyInstaller
     {

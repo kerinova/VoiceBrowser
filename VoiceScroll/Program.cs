@@ -20,21 +20,21 @@ using System;
 using System.Reflection;
 using System.Threading;
 
-namespace VoiceScroll
+namespace VoiceBrowser
 {
     class Program
     {
         static bool done = false;
         static void Main(string[] args)
         {
-            Console.WriteLine("Voice Listener [Version 0.0.3.25]");
+            Console.WriteLine("Voice Browser [Version 0.1.0.25]");
             Console.WriteLine("Copyright \u00a9 2015-{0} Kerinova Studios. All rights reserved.", DateTime.Now.Year);
             Console.WriteLine("GPL v3 License");
             try
             {
                 Recognize();
             }
-            catch (System.IO.FileNotFoundException e) //if the speech runtime is not installed, install it and restart.
+            catch (System.IO.FileNotFoundException) //if the speech runtime is not installed, install it and restart.
             {
                 InstallDependencies();
             }

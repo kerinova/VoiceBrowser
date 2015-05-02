@@ -21,7 +21,7 @@ using Microsoft.Speech.Recognition;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace VoiceScroll
+namespace VoiceBrowser
 {
     class VoiceListener
     {
