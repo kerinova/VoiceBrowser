@@ -20,20 +20,14 @@ using System;
 using Microsoft.Speech.Recognition;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Linq;
+using System.IO;
 
 namespace VoiceBrowser
 {
     class VoiceListener
     {
-        //constants for speech commands
-        private const string scroll = "scroll";
-        private const string scrollUp = "scroll up";
-        private const string nextTab = "next";
-        private const string prevTab = "back";
-        private const string closeTab = "close tab";
-        private const string exit = "exit";
-        private const string resume = "resume";
-        private const string pause = "pause";
+        private string[] speechCommands; //create an array with 8 indices for the voice commands.
 
         SpeechRecognitionEngine speechRecogEngine;
         public VoiceListener()
@@ -52,12 +46,26 @@ namespace VoiceBrowser
         /// <returns></returns>
         private Grammar InitializeGrammar()
         {
+            speechCommands = LoadGrammar();
             Choices commands = new Choices();
-            commands.Add(new string[] { scroll, scrollUp, nextTab, prevTab, closeTab, pause, exit });
+            commands.Add(speechCommands.Take(7).ToArray()); //adds all commands except for 'resume'
             GrammarBuilder grammarBuilder = new GrammarBuilder();
             grammarBuilder.Append(commands);
             Grammar grammar = new Grammar(grammarBuilder);
             return grammar;
+        }
+
+        private string[] LoadGrammar()
+        {
+            try
+            {
+                return File.ReadAllLines("./commands.txt");
+            }
+            catch(IOException e)
+            {
+                Console.WriteLine("Failed to load custom commands: {0}", e.Message);
+            }
+            return new string[] { "scroll", "scroll up", "next", "back", "close tab", "pause", "exit", "resume" }; //if loading fails, load default commands
         }
         /// <summary>
         /// Initialize a grammar containing resume and exit, for when recognition is paused.
@@ -66,7 +74,7 @@ namespace VoiceBrowser
         private Grammar InitializeMenuGrammar()
         {
             Choices commands = new Choices();
-            commands.Add(new string[] { resume, exit });
+            commands.Add(speechCommands.Skip(6).ToArray()); //adds only 'exit' and 'resume' for the menu commands
             GrammarBuilder grammarBuilder = new GrammarBuilder();
             grammarBuilder.Append(commands);
             Grammar grammar = new Grammar(grammarBuilder);
@@ -95,37 +103,37 @@ namespace VoiceBrowser
             {
                 return;
             }
-            if(txt.IndexOf(scrollUp) >= 0)
+            if(txt.IndexOf(speechCommands[1]) >= 0) //scroll up
             {
                 ScrollUp();
             }
-            else if (txt.IndexOf(scroll) >= 0)
+            else if (txt.IndexOf(speechCommands[0]) >= 0) //scroll
             {
                 ScrollDown();
             }
-            else if (txt.IndexOf(closeTab) >= 0)
+            else if (txt.IndexOf(speechCommands[4]) >= 0) //close tab
             {
                 CloseTab();
             }
-            else if (txt.IndexOf(nextTab) >= 0)
+            else if (txt.IndexOf(speechCommands[2]) >= 0) //next tab
             {
                 NextTab();
             }
-            else if (txt.IndexOf(prevTab) >= 0)
+            else if (txt.IndexOf(speechCommands[3]) >= 0) //previous tab
             {
                 PrevTab();
             }
-            else if (txt.IndexOf(pause) >= 0) //switch to the menu grammar set
+            else if (txt.IndexOf(speechCommands[5]) >= 0) //switch to the menu grammar set
             {
                 speechRecogEngine.UnloadAllGrammars();
                 speechRecogEngine.LoadGrammarAsync(InitializeMenuGrammar());
             }
-            else if (txt.IndexOf(resume) >= 0) //switch to the normal grammar set
+            else if (txt.IndexOf(speechCommands[6]) >= 0) //switch to the normal grammar set
             {
                 speechRecogEngine.UnloadAllGrammars();
                 speechRecogEngine.LoadGrammarAsync(InitializeGrammar());
             }
-            else if (txt.IndexOf(exit) >= 0)
+            else if (txt.IndexOf(speechCommands[7]) >= 0) //exit
             {
                 System.Environment.Exit(0); //clean exit the application
             }
