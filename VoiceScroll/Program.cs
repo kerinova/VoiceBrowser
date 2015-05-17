@@ -27,7 +27,7 @@ namespace VoiceBrowser
         static bool done = false;
         static void Main(string[] args)
         {
-            Console.WriteLine("Voice Browser [Version 0.1.0.25]");
+            Console.WriteLine("Voice Browser [Version 0.2.0.33]");
             Console.WriteLine("Copyright \u00a9 2015-{0} Kerinova Studios. All rights reserved.", DateTime.Now.Year);
             Console.WriteLine("GPL v3 License");
             try
