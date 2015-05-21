@@ -99,7 +99,7 @@ namespace VoiceBrowser
             string txt = e.Result.Text;
             float confidence = e.Result.Confidence;
             Console.WriteLine("\nRecognized: {0}, Confidence: {1}", txt, confidence.ToString());
-            if(confidence < 0.50 )
+            if(confidence < 0.70 )
             {
                 return;
             }
